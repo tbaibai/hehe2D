@@ -1,0 +1,9 @@
+Debug/*.exe
+Debug/*.ilk
+Debug/*.pdb
+ipch/
+Hehe2D/Debug/
+Hehe2D/*.user
+*.opensdf
+*.sdf
+*.suo
