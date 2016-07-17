@@ -7,9 +7,8 @@ NS_HEHE2D_BEGIN
 class EsHelper
 {
 public:
-	static GLuint esLoadProgram ( const char *vertShaderSrc, const char *fragShaderSrc );
-	static GLuint esLoadShader ( GLenum type, const char *shaderSrc );
-	static void esLogMessage ( const char *formatStr, ... );
+    static GLuint esLoadProgram ( const char *vertShaderSrc, const char *fragShaderSrc );
+    static GLuint esLoadShader ( GLenum type, const char *shaderSrc );
+    static void esLogMessage ( const char *formatStr, ... );
 };
 NS_HEHE2D_END
-

@@ -11,15 +11,15 @@ public:
 class EventDispatcher
 {
 public:
-	EventDispatcher(void);
-	~EventDispatcher(void);
-	static EventDispatcher* instance();
+    EventDispatcher(void);
+    ~EventDispatcher(void);
+    static EventDispatcher* instance();
 
-	void dispatchKeyClicked(unsigned char key, int mouseX, int mouseY);
-	void addKeyboradDelegate(KeyboardDelegate* delegate);
-	void removeKeyboardDelegate(KeyboardDelegate* delegate);
+    void dispatchKeyClicked(unsigned char key, int mouseX, int mouseY);
+    void addKeyboradDelegate(KeyboardDelegate* delegate);
+    void removeKeyboardDelegate(KeyboardDelegate* delegate);
 
 private:
-	set<KeyboardDelegate*> keyboardDelegates_;
+    set<KeyboardDelegate*> keyboardDelegates_;
 };
 
