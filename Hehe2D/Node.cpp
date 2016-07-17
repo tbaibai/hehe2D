@@ -1,5 +1,7 @@
 #include "Node.h"
 #include "assert.h"
+#include "Renderer.h"
+#include "PointSizeRect.h"
 #include <algorithm>
 
 using namespace std;
@@ -10,6 +12,7 @@ NS_HEHE2D_BEGIN
     , tag_(0)
     , zOrder_(0)
 {
+    EsHelper::matrixLoadIdentity(transform_);
 }
 
 
@@ -54,6 +57,15 @@ void Node::addChild( Node* child, int zOrder/*=0*/)
 bool Node::compare( Node* a, Node* b )
 {
     return a->getZOrder() < b->getZOrder();
+}
+
+void Node::computeTranform()
+{
+    Size winSize = Renderer::instance()->getWinSize();
+    Matrix tmp;
+    EsHelper::matrixLoadIdentity(tmp);
+    EsHelper::translate(tmp, pos_.x * 2 / winSize.w - 1.f, pos_.y * 2 / winSize.h - 1.f, 0.f);
+    transform_ = tmp;
 }
 
 NS_HEHE2D_END

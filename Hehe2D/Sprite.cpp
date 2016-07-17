@@ -4,12 +4,17 @@
 #include "FileUtils.h"
 
 NS_HEHE2D_BEGIN
-    Sprite::Sprite(void)
+Sprite::Sprite(void)
     : image_(NULL)
     , imageHeight_(0)
     , imageWidth_(0)
     , texObj_(0)
 {
+}
+
+Sprite::~Sprite(void)
+{
+    delete[] image_;
 }
 
 Sprite::Sprite( const char* filePath )//暂只支持png格式的散图
@@ -46,26 +51,27 @@ Sprite::Sprite( const char* filePath )//暂只支持png格式的散图
     delete[] buffer;
 }
 
-Sprite::~Sprite(void)
-{
-}
-
 void Sprite::draw()
 {
     //set program obj
     GLuint progObj = Renderer::instance()->useShaderProgram("defaultSprite");
 
     //set uniform
-    //GLuint mvp =  glGetUniformLocation ( progObj, "u_mvp" );
+    GLuint mvp =  glGetUniformLocation ( progObj, "u_mvp" );
+    computeTranform();
+    glUniformMatrix4fv(mvp, 1, GL_FALSE, (GLfloat*)&transform_.m[0][0]);
 
     //set attributes
-    GLfloat posAndTexcoord[] = { -0.5f,  0.5f, 0.0f,  // Position 0
+    Size winSize = Renderer::instance()->getWinSize();
+    float x = imageWidth_ / winSize.w;
+    float y = imageHeight_ / winSize.h;
+    GLfloat posAndTexcoord[] = { -x , y, 0.0f,  // Position 0
         0.0f,  0.0f,        // TexCoord 0 
-        -0.5f, -0.5f, 0.0f,  // Position 1
+        -x, -y, 0.0f,  // Position 1
         0.0f,  1.0f,        // TexCoord 1
-        0.5f, -0.5f, 0.0f,  // Position 2
+        x, -y, 0.0f,  // Position 2
         1.0f,  1.0f,        // TexCoord 2
-        0.5f,  0.5f, 0.0f,  // Position 3
+        x,  y, 0.0f,  // Position 3
         1.0f,  0.0f         // TexCoord 3
     };
     GLuint pos = glGetAttribLocation ( progObj, "a_position" );

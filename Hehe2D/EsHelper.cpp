@@ -2,10 +2,13 @@
 #include "stdio.h"
 #include "macros.h"
 #include "malloc.h"
+#include "math.h"
 
 NS_HEHE2D_BEGIN
 
-    void EsHelper::esLogMessage ( const char *formatStr, ... )
+const float EsHelper::PI = 3.1415926535897932384626433832795f;
+
+void EsHelper::esLogMessage ( const char *formatStr, ... )
 {
     va_list params;
     char buf[1024];
@@ -122,4 +125,106 @@ GLuint EsHelper::esLoadProgram ( const char *vertShaderSrc, const char *fragShad
 
     return programObject;
 }
+
+void EsHelper::matrixLoadIdentity( Matrix& mat )
+{
+    memset(&mat, 0, sizeof(Matrix));
+    mat.m[0][0] = 1.0f;
+    mat.m[1][1] = 1.0f;
+    mat.m[2][2] = 1.0f;
+    mat.m[3][3] = 1.0f;
+}
+
+void EsHelper::matrixLoadPerspective( Matrix& mat, float fov, float aspect, float nearZ, float farZ )
+{
+
+}
+
+//应用层，执行的是左乘转置矩阵
+void EsHelper::translate( Matrix& mat, GLfloat tx, GLfloat ty, GLfloat tz )
+{
+    
+    mat.m[3][0] += (mat.m[0][0] * tx + mat.m[1][0] * ty + mat.m[2][0] * tz);
+    mat.m[3][1] += (mat.m[0][1] * tx + mat.m[1][1] * ty + mat.m[2][1] * tz);
+    mat.m[3][2] += (mat.m[0][2] * tx + mat.m[1][2] * ty + mat.m[2][2] * tz);
+    mat.m[3][3] += (mat.m[0][3] * tx + mat.m[1][3] * ty + mat.m[2][3] * tz);
+}
+
+void EsHelper::rotate( Matrix& result, GLfloat angle, GLfloat x, GLfloat y, GLfloat z )
+{
+    GLfloat mag = sqrtf(x * x + y * y + z * z);
+    GLfloat sinAngle = sinf ( angle * PI / 180.0f );
+    GLfloat cosAngle = cosf ( angle * PI / 180.0f );
+
+    if ( mag > 0.0f )
+    {
+        GLfloat xx, yy, zz, xy, yz, zx, xs, ys, zs;
+        GLfloat oneMinusCos;
+        Matrix rotMat;
+
+        x /= mag;
+        y /= mag;
+        z /= mag;
+
+        xx = x * x;
+        yy = y * y;
+        zz = z * z;
+        xy = x * y;
+        yz = y * z;
+        zx = z * x;
+        xs = x * sinAngle;
+        ys = y * sinAngle;
+        zs = z * sinAngle;
+        oneMinusCos = 1.0f - cosAngle;
+
+        rotMat.m[0][0] = (oneMinusCos * xx) + cosAngle;
+        rotMat.m[0][1] = (oneMinusCos * xy) - zs;
+        rotMat.m[0][2] = (oneMinusCos * zx) + ys;
+        rotMat.m[0][3] = 0.0F; 
+
+        rotMat.m[1][0] = (oneMinusCos * xy) + zs;
+        rotMat.m[1][1] = (oneMinusCos * yy) + cosAngle;
+        rotMat.m[1][2] = (oneMinusCos * yz) - xs;
+        rotMat.m[1][3] = 0.0F;
+
+        rotMat.m[2][0] = (oneMinusCos * zx) - ys;
+        rotMat.m[2][1] = (oneMinusCos * yz) + xs;
+        rotMat.m[2][2] = (oneMinusCos * zz) + cosAngle;
+        rotMat.m[2][3] = 0.0F; 
+
+        rotMat.m[3][0] = 0.0F;
+        rotMat.m[3][1] = 0.0F;
+        rotMat.m[3][2] = 0.0F;
+        rotMat.m[3][3] = 1.0F;
+
+        matrixMultiply( result, rotMat, result );
+    }
+}
+
+void EsHelper::matrixMultiply(Matrix& result, Matrix& matA, Matrix& matB)
+{
+    for (int i = 0; i < 4; ++i)
+    {
+        result.m[i][0] =	(matA.m[i][0] * matB.m[0][0]) +
+            (matA.m[i][1] * matB.m[1][0]) +
+            (matA.m[i][2] * matB.m[2][0]) +
+            (matA.m[i][3] * matB.m[3][0]) ;
+
+        result.m[i][1] =	(matA.m[i][0] * matB.m[0][1]) + 
+            (matA.m[i][1] * matB.m[1][1]) +
+            (matA.m[i][2] * matB.m[2][1]) +
+            (matA.m[i][3] * matB.m[3][1]) ;
+
+        result.m[i][2] =	(matA.m[i][0] * matB.m[0][2]) + 
+            (matA.m[i][1] * matB.m[1][2]) +
+            (matA.m[i][2] * matB.m[2][2]) +
+            (matA.m[i][3] * matB.m[3][2]) ;
+
+        result.m[i][3] =	(matA.m[i][0] * matB.m[0][3]) + 
+            (matA.m[i][1] * matB.m[1][3]) +
+            (matA.m[i][2] * matB.m[2][3]) +
+            (matA.m[i][3] * matB.m[3][3]) ;
+    }
+}
+
 NS_HEHE2D_END

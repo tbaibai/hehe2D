@@ -10,9 +10,9 @@ int main(int argc, char * argv[])
 {
     Renderer::instance()->init(960, 640);
 
-    Sprite* sp = new Sprite("D:/GitProjs/game_dn_cocos2dx/game_client/Resources/images/share/picture_frame.png");
+    Sprite* sp = new Sprite("picture_frame.png");
     Renderer::instance()->rootNode()->addChild(sp);
-
+    sp->setPos(Point(400, 320));
     Renderer::instance()->run();
 
     return 0;

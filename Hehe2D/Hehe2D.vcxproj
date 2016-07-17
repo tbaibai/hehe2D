@@ -94,7 +94,7 @@
     <ClInclude Include="FileUtils.h" />
     <ClInclude Include="macros.h" />
     <ClInclude Include="Node.h" />
-    <ClInclude Include="Point.h" />
+    <ClInclude Include="PointSizeRect.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="typedefs.h" />

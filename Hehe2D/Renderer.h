@@ -7,6 +7,7 @@
 #include "GLES2/gl2.h"
 #include "macros.h"
 #include "Node.h"
+#include "PointSizeRect.h"
 NS_HEHE2D_BEGIN
 class Renderer
 {
@@ -22,6 +23,8 @@ public:
     void addShaderProgram(const char* name, const char* vsFilePath, const char* fsFilePath);
     GLuint getShaderProgram(const char* name);
     GLuint useShaderProgram(const char* name);
+
+    Size getWinSize(){return Size(winWidth_, winHeight_);}
 
 private:
     void _initNativeWindow(uint32 w, uint32 h);
