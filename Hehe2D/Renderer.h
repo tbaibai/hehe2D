@@ -20,7 +20,7 @@ public:
     void run();
     Node* rootNode(){return rootNode_;}
 
-    void addShaderProgram(const char* name, const char* vsFilePath, const char* fsFilePath);
+    GLuint addShaderProgram(const char* name, const char* vsFilePath, const char* fsFilePath);
     GLuint getShaderProgram(const char* name);
     GLuint useShaderProgram(const char* name);
 

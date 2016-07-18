@@ -80,6 +80,7 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DrawNode.cpp" />
     <ClCompile Include="EsHelper.cpp" />
     <ClCompile Include="EventDispatcher.cpp" />
     <ClCompile Include="FileUtils.cpp" />
@@ -89,6 +90,7 @@
     <ClCompile Include="Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DrawNode.h" />
     <ClInclude Include="EsHelper.h" />
     <ClInclude Include="EventDispatcher.h" />
     <ClInclude Include="FileUtils.h" />

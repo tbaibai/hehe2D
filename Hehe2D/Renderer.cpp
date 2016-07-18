@@ -229,15 +229,21 @@ void Renderer::_initDefaultShaderPrograms()
     shaderPrograms_["defaultSprite"] = obj;
 }
 
-void Renderer::addShaderProgram(const char* name, const char* vsFilePath, const char* fsFilePath)
+GLuint Renderer::addShaderProgram(const char* name, const char* vsFilePath, const char* fsFilePath)
 {
-    size_t fileSize;
-    uint8* vs = FileUtils::getBytesData(vsFilePath, fileSize);
-    uint8* fs = FileUtils::getBytesData(fsFilePath, fileSize);
-    GLuint obj = EsHelper::esLoadProgram((const char*)vs, (const char*)fs);
-    delete[] vs;
-    delete[] fs;
-    shaderPrograms_[name] = obj;
+    std::map<std::string, GLuint>::iterator it = shaderPrograms_.find(name);
+    if(it == shaderPrograms_.end())
+    {
+        size_t fileSize;
+        uint8* vs = FileUtils::getBytesData(vsFilePath, fileSize, true);
+        uint8* fs = FileUtils::getBytesData(fsFilePath, fileSize, true);
+        GLuint obj = EsHelper::esLoadProgram((const char*)vs, (const char*)fs);
+        delete[] vs;
+        delete[] fs;
+        shaderPrograms_[name] = obj;
+    }
+    
+    return shaderPrograms_[name];
 }
 
 GLuint Renderer::getShaderProgram( const char* name )

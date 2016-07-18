@@ -91,8 +91,6 @@ void Sprite::draw()
     //make drawcall
     GLushort indices[] = { 0, 1, 2, 0, 2, 3 };
     glDrawElements ( GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices );
-
-    glDrawElements ( GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices );
 }
 
 bool Sprite::_initWithPngData(uint8 * pData, int nDatalen)
