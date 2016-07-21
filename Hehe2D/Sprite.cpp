@@ -58,13 +58,13 @@ void Sprite::draw()
 
     //set uniform
     GLuint mvp =  glGetUniformLocation ( progObj, "u_mvp" );
-    computeTranform();
+
     glUniformMatrix4fv(mvp, 1, GL_FALSE, (GLfloat*)&transform_.m[0][0]);
 
     //set attributes
     Size winSize = Renderer::instance()->getWinSize();
-    float x = imageWidth_ / winSize.w;
-    float y = imageHeight_ / winSize.h;
+    float x = imageWidth_ / 2.f;
+    float y = imageHeight_ / 2.f;
     GLfloat posAndTexcoord[] = { -x , y, 0.0f,  // Position 0
         0.0f,  0.0f,        // TexCoord 0 
         -x, -y, 0.0f,  // Position 1

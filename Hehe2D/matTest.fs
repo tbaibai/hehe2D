@@ -1,5 +1,5 @@
 precision mediump float;
-uniform mat4 u_m;  
+
 void main() 
 {         
   mat4 m1 = mat4(
@@ -17,5 +17,5 @@ void main()
   );
   
   mat4 m = m1*m2;
-  gl_FragColor = m * vec4(1.0, 1.0, 1.0, 0.0);
+  gl_FragColor = vec4(1.0, 1.0, 0.3, 0.0);
 }      

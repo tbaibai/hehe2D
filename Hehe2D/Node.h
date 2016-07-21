@@ -14,6 +14,8 @@ public:
     virtual void draw();
     virtual void update(float dt);
     virtual void setPos(const Point& v){pos_ = v;}
+    virtual void setScale(float sx, float sy){scaleX_ = sx; scaleY_ = sy;}
+    virtual void setRotation(float angle){angle_ = angle;}
     virtual const Point& getPos(){return pos_;}
     virtual void addChild(Node* child, int zOrder = 0);
     virtual Node* getParent(){return parent_;}
@@ -22,10 +24,14 @@ public:
     virtual int getTag(){return tag_;}
     virtual void setTag(int v){tag_ = v;}
     virtual void computeTranform();
+    Matrix& getTransform(){return transform_;}
     static bool compare(Node* a, Node* b);
 
 protected:
     Point pos_;
+    float scaleX_;
+    float scaleY_;
+    float angle_;
     int zOrder_;
     int tag_;
     std::vector<Node*> children_;

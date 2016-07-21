@@ -13,24 +13,26 @@ DrawNode::~DrawNode(void)
 
 void DrawNode::draw()
 {
+    Size winSize = Renderer::instance()->getWinSize();
+    GLfloat w = 100, h = 100;
+
     Renderer::instance()->addShaderProgram("matrixTest", "matTest.vs", "matTest.fs");
     GLuint obj = Renderer::instance()->useShaderProgram("matrixTest");
 
-    GLfloat mat[] = {
-        0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0,
-        0.0, 1.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0
-    };
+    Matrix tran;
+    EsHelper::matrixLoadIdentity(tran);
+    EsHelper::scale(tran, 2.f / winSize.w, 2.f / winSize.h, 1.f);//最先左乘投影
+    EsHelper::translate(tran, pos_.x, pos_.y, 0.f);
+    EsHelper::rotate(tran, 5);
 
     GLuint matLoc = glGetUniformLocation(obj, "u_m");
-    glUniformMatrix4fv(matLoc, 1,false, mat);
+    glUniformMatrix4fv(matLoc, 1,false, &(tran.m[0][0]));
 
     GLfloat vertData[] = {
-        0.5f, 0.5f, 0.f,
-        -0.5f, 0.5f, 0.f,
-        -0.5f, -0.5f, 0.f,
-        0.5f, -0.5f, 0.f,
+        0.5*w, 0.5*h, 0.f,
+        -0.5*w, 0.5*h, 0.f,
+        -0.5*w, -0.5*h, 0.f,
+        0.5*w, -0.5*h, 0.f,
     };
     GLuint pos = glGetAttribLocation ( Renderer::instance()->getShaderProgram("matrixTest"), "a_position" );
     glVertexAttribPointer ( pos, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), vertData );

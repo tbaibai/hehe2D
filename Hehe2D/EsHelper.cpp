@@ -150,55 +150,34 @@ void EsHelper::translate( Matrix& mat, GLfloat tx, GLfloat ty, GLfloat tz )
     mat.m[3][3] += (mat.m[0][3] * tx + mat.m[1][3] * ty + mat.m[2][3] * tz);
 }
 
-void EsHelper::rotate( Matrix& result, GLfloat angle, GLfloat x, GLfloat y, GLfloat z )
+void EsHelper::scale(Matrix &result, GLfloat sx, GLfloat sy, GLfloat sz)
 {
-    GLfloat mag = sqrtf(x * x + y * y + z * z);
-    GLfloat sinAngle = sinf ( angle * PI / 180.0f );
-    GLfloat cosAngle = cosf ( angle * PI / 180.0f );
+    result.m[0][0] *= sx;
+    result.m[0][1] *= sx;
+    result.m[0][2] *= sx;
+    result.m[0][3] *= sx;
 
-    if ( mag > 0.0f )
-    {
-        GLfloat xx, yy, zz, xy, yz, zx, xs, ys, zs;
-        GLfloat oneMinusCos;
-        Matrix rotMat;
+    result.m[1][0] *= sy;
+    result.m[1][1] *= sy;
+    result.m[1][2] *= sy;
+    result.m[1][3] *= sy;
 
-        x /= mag;
-        y /= mag;
-        z /= mag;
+    result.m[2][0] *= sz;
+    result.m[2][1] *= sz;
+    result.m[2][2] *= sz;
+    result.m[2][3] *= sz;
+}
 
-        xx = x * x;
-        yy = y * y;
-        zz = z * z;
-        xy = x * y;
-        yz = y * z;
-        zx = z * x;
-        xs = x * sinAngle;
-        ys = y * sinAngle;
-        zs = z * sinAngle;
-        oneMinusCos = 1.0f - cosAngle;
-
-        rotMat.m[0][0] = (oneMinusCos * xx) + cosAngle;
-        rotMat.m[0][1] = (oneMinusCos * xy) - zs;
-        rotMat.m[0][2] = (oneMinusCos * zx) + ys;
-        rotMat.m[0][3] = 0.0F; 
-
-        rotMat.m[1][0] = (oneMinusCos * xy) + zs;
-        rotMat.m[1][1] = (oneMinusCos * yy) + cosAngle;
-        rotMat.m[1][2] = (oneMinusCos * yz) - xs;
-        rotMat.m[1][3] = 0.0F;
-
-        rotMat.m[2][0] = (oneMinusCos * zx) - ys;
-        rotMat.m[2][1] = (oneMinusCos * yz) + xs;
-        rotMat.m[2][2] = (oneMinusCos * zz) + cosAngle;
-        rotMat.m[2][3] = 0.0F; 
-
-        rotMat.m[3][0] = 0.0F;
-        rotMat.m[3][1] = 0.0F;
-        rotMat.m[3][2] = 0.0F;
-        rotMat.m[3][3] = 1.0F;
-
-        matrixMultiply( result, rotMat, result );
-    }
+void EsHelper::rotate( Matrix& result, GLfloat angle)
+{
+    Matrix rotMat;
+    matrixLoadIdentity(rotMat);
+    float cos_angle = cos(angle * PI / 180.f);
+    float sin_angle = sin(angle * PI / 180.f);
+    rotMat.m[0][0] = rotMat.m[1][1] = cos_angle;
+    rotMat.m[0][1] = -sin_angle;
+    rotMat.m[1][0] = sin_angle;
+    matrixMultiply(result, rotMat, result);
 }
 
 void EsHelper::matrixMultiply(Matrix& result, Matrix& matA, Matrix& matB)

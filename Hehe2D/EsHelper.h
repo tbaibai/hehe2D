@@ -20,7 +20,8 @@ public:
     static void matrixLoadIdentity(Matrix& mat);
     static void matrixLoadPerspective(Matrix& mat, float fov, float aspect, float nearZ, float farZ);
     static void translate(Matrix& mat, GLfloat x, GLfloat y, GLfloat z);
-    static void rotate(Matrix& mat, GLfloat angel, GLfloat x, GLfloat y, GLfloat z);
+    static void rotate(Matrix& mat, GLfloat angel);
+    static void scale(Matrix& mat, GLfloat sx, GLfloat sy, GLfloat sz);
     static void matrixMultiply(Matrix& result, Matrix& matA, Matrix& matB);
 };
 NS_HEHE2D_END
