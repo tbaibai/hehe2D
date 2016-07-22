@@ -171,39 +171,49 @@ void EsHelper::scale(Matrix &result, GLfloat sx, GLfloat sy, GLfloat sz)
 void EsHelper::rotate( Matrix& result, GLfloat angle)
 {
     Matrix rotMat;
-    matrixLoadIdentity(rotMat);
     float cos_angle = cos(angle * PI / 180.f);
     float sin_angle = sin(angle * PI / 180.f);
     rotMat.m[0][0] = rotMat.m[1][1] = cos_angle;
     rotMat.m[0][1] = -sin_angle;
     rotMat.m[1][0] = sin_angle;
+    rotMat.m[2][2] = rotMat.m[3][3] = 1.f;
     matrixMultiply(result, rotMat, result);
 }
 
 void EsHelper::matrixMultiply(Matrix& result, Matrix& matA, Matrix& matB)
 {
+    Matrix tmp;
     for (int i = 0; i < 4; ++i)
     {
-        result.m[i][0] =	(matA.m[i][0] * matB.m[0][0]) +
+        tmp.m[i][0] =	(matA.m[i][0] * matB.m[0][0]) +
             (matA.m[i][1] * matB.m[1][0]) +
             (matA.m[i][2] * matB.m[2][0]) +
             (matA.m[i][3] * matB.m[3][0]) ;
 
-        result.m[i][1] =	(matA.m[i][0] * matB.m[0][1]) + 
+        tmp.m[i][1] =	(matA.m[i][0] * matB.m[0][1]) + 
             (matA.m[i][1] * matB.m[1][1]) +
             (matA.m[i][2] * matB.m[2][1]) +
             (matA.m[i][3] * matB.m[3][1]) ;
 
-        result.m[i][2] =	(matA.m[i][0] * matB.m[0][2]) + 
+        tmp.m[i][2] =	(matA.m[i][0] * matB.m[0][2]) + 
             (matA.m[i][1] * matB.m[1][2]) +
             (matA.m[i][2] * matB.m[2][2]) +
             (matA.m[i][3] * matB.m[3][2]) ;
 
-        result.m[i][3] =	(matA.m[i][0] * matB.m[0][3]) + 
+        tmp.m[i][3] =	(matA.m[i][0] * matB.m[0][3]) + 
             (matA.m[i][1] * matB.m[1][3]) +
             (matA.m[i][2] * matB.m[2][3]) +
             (matA.m[i][3] * matB.m[3][3]) ;
     }
+    
+    for(int i = 0; i < 4; ++i)
+    {
+        for(int j = 0; j < 4; ++j)
+        {
+            result.m[i][j] = tmp.m[i][j];
+        }
+    }
+    
 }
 
 NS_HEHE2D_END

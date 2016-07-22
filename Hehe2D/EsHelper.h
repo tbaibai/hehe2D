@@ -7,6 +7,15 @@ NS_HEHE2D_BEGIN
 struct Matrix
 {
     GLfloat   m[4][4];
+    Matrix(){
+        for(int i = 0; i < 4; ++i)
+        {
+            for(int j = 0; j < 4; ++j)
+            {
+                m[i][j] = 0.f;
+            }
+        }
+    }
 };
 
 class EsHelper
