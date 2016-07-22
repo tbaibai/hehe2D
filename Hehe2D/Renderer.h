@@ -26,6 +26,8 @@ public:
 
     Size getWinSize(){return Size(winWidth_, winHeight_);}
 
+    float getLastFrameTime(){return lastFrameTime_;}
+
 private:
     void _initNativeWindow(uint32 w, uint32 h);
     void _initOpenGLES();

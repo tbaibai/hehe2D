@@ -25,6 +25,7 @@ Node::~Node(void)
 
 void Node::visit()
 {
+    update(Renderer::instance()->getLastFrameTime());
     computeTranform();
 
     stable_sort(children_.begin(), children_.end(), &Node::compare);

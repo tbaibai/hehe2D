@@ -189,13 +189,15 @@ void Renderer::run()
 
         DWORD tNow = GetTickCount();
 
-        if(tNow - tLast < 167) //控制帧率不超过60
+        if(tNow - tLast < 6) //控制帧率不超过60
         {
+            printf("ms = %d\n", (int)(tNow - tLast));
             Sleep(1);
         }
         else
         {
             lastFrameTime_ = (tNow - tLast) / 1000.f;
+            printf("FPS = %d\n", (int)(1 / lastFrameTime_));
             tLast = tNow;
             _drawRoot();
         }

@@ -15,6 +15,7 @@ public:
     virtual void update(float dt);
     virtual void setPos(const Point& v){pos_ = v;}
     virtual void setScale(float sx, float sy){scaleX_ = sx; scaleY_ = sy;}
+    virtual float getRotation(){return angle_;}
     virtual void setRotation(float angle){angle_ = angle;}
     virtual const Point& getPos(){return pos_;}
     virtual void addChild(Node* child, int zOrder = 0);

@@ -88,6 +88,7 @@
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="TestNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DrawNode.h" />
@@ -99,6 +100,7 @@
     <ClInclude Include="PointSizeRect.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="TestNode.h" />
     <ClInclude Include="typedefs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
