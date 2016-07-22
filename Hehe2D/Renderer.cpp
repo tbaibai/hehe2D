@@ -166,12 +166,15 @@ void Renderer::run()
 {
     MSG msg = { 0 };
     int done = 0;
-    DWORD tLast = GetTickCount();
+    LARGE_INTEGER nFreq;
+    LARGE_INTEGER nLast;
+    LARGE_INTEGER nNow;
+
+    QueryPerformanceFrequency(&nFreq);
+    QueryPerformanceCounter(&nLast);
 
     while (!done)
     {
-        
-
         int gotMsg = (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) != 0);
 
         if ( gotMsg )
@@ -187,18 +190,20 @@ void Renderer::run()
             }
         }
 
-        DWORD tNow = GetTickCount();
+        QueryPerformanceCounter(&nNow);
 
-        if(tNow - tLast < 6) //控制帧率不超过60
+        if((nNow.QuadPart - nLast.QuadPart) / (nFreq.QuadPart + 0.f) < 0.01667) //控制帧率不超过60
         {
-            printf("ms = %d\n", (int)(tNow - tLast));
+            printf("s = %f\n", (float)(nNow.QuadPart - nLast.QuadPart)/ (nFreq.QuadPart + 0.f));
+            timeBeginPeriod(1);
             Sleep(1);
+            timeEndPeriod(1);
         }
         else
         {
-            lastFrameTime_ = (tNow - tLast) / 1000.f;
+            lastFrameTime_ = (nNow.QuadPart - nLast.QuadPart) / (nFreq.QuadPart + 0.f);
             printf("FPS = %d\n", (int)(1 / lastFrameTime_));
-            tLast = tNow;
+            nLast.QuadPart = nNow.QuadPart;
             _drawRoot();
         }
     }
