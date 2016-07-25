@@ -85,17 +85,20 @@
     <ClCompile Include="EventDispatcher.cpp" />
     <ClCompile Include="FileUtils.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MoveTo.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TestNode.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Action.h" />
     <ClInclude Include="DrawNode.h" />
     <ClInclude Include="EsHelper.h" />
     <ClInclude Include="EventDispatcher.h" />
     <ClInclude Include="FileUtils.h" />
     <ClInclude Include="macros.h" />
+    <ClInclude Include="MoveTo.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="PointSizeRect.h" />
     <ClInclude Include="Renderer.h" />

@@ -1,4 +1,4 @@
-#include "Renderer.h"
+ï»¿#include "Renderer.h"
 #include "EventDispatcher.h"
 #include "EGL/egl.h"
 #include "EsHelper.h"
@@ -128,7 +128,7 @@ void Renderer::_initOpenGLES()
     EGLint minorVersion;
     eglInitialize(display, &majorVersion, &minorVersion);
 
-    //ES_WINDOW_MULTISAMPLEÔÚ¹«Ë¾µçÄÔ²»Ö§³Ö
+    //ES_WINDOW_MULTISAMPLEåœ¨å…¬å¸ç”µè„‘ä¸æ”¯æŒ
     GLuint flags = ES_WINDOW_ALPHA | ES_WINDOW_DEPTH | ES_WINDOW_STENCIL;// | ES_WINDOW_MULTISAMPLE;
     EGLint attribList[] =
     {     
@@ -192,7 +192,7 @@ void Renderer::run()
 
         QueryPerformanceCounter(&nNow);
 
-        if((nNow.QuadPart - nLast.QuadPart) / (nFreq.QuadPart + 0.f) < 0.01667) //¿ØÖÆÖ¡ÂÊ²»³¬¹ı60
+        if((nNow.QuadPart - nLast.QuadPart) / (nFreq.QuadPart + 0.f) < 0.01667) //æ§åˆ¶å¸§ç‡ä¸è¶…è¿‡60
         {
             printf("s = %f\n", (float)(nNow.QuadPart - nLast.QuadPart)/ (nFreq.QuadPart + 0.f));
             timeBeginPeriod(1);
@@ -279,7 +279,7 @@ GLuint Renderer::useShaderProgram(const char* name)
 
 void Renderer::_drawRoot()
 {
-    glViewport ( 0, 0, winWidth_, winHeight_); //ÆäÊµÒ²²»ÓÃÃ¿Ö¡¶¼ÉèÖÃ
+    glViewport ( 0, 0, winWidth_, winHeight_); //å…¶å®ä¹Ÿä¸ç”¨æ¯å¸§éƒ½è®¾ç½®
     glClear ( GL_COLOR_BUFFER_BIT );
     rootNode_->visit();
     eglSwapBuffers(display_, surface_);

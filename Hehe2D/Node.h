@@ -3,8 +3,10 @@
 #include "PointSizeRect.h"
 #include "EsHelper.h"
 #include <vector>
+
 NS_HEHE2D_BEGIN
 
+class Action;
 class Node
 {
 public:
@@ -27,6 +29,10 @@ public:
     virtual void computeTranform();
     Matrix& getTransform(){return transform_;}
     static bool compare(Node* a, Node* b);
+    void runAction(Action* act);
+
+protected:
+    void _updateActions(float dt);
 
 protected:
     Point pos_;
@@ -39,6 +45,8 @@ protected:
     Node* parent_;
 
     Matrix transform_;
+
+    std::vector<Action*> actions_;
 };
 
 NS_HEHE2D_END

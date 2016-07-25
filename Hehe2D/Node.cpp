@@ -1,6 +1,7 @@
 #include "Node.h"
 #include "assert.h"
 #include "Renderer.h"
+#include "Action.h"
 #include "PointSizeRect.h"
 #include <algorithm>
 
@@ -25,7 +26,9 @@ Node::~Node(void)
 
 void Node::visit()
 {
-    update(Renderer::instance()->getLastFrameTime());
+    float lastFrameTime = Renderer::instance()->getLastFrameTime();
+    _updateActions(lastFrameTime);
+    update(lastFrameTime);
     computeTranform();
 
     stable_sort(children_.begin(), children_.end(), &Node::compare);
@@ -46,6 +49,32 @@ void Node::visit()
 void Node::draw()
 {
 
+}
+
+void Node::_updateActions(float dt)
+{
+    for(vector<Action*>::iterator it = actions_.begin(); it != actions_.end(); )
+    {
+        Action* act = *it;
+        assert(act);
+        if(act)
+        {
+            act->step(dt);
+            if(act->isDone())
+            {
+                delete act;
+                it = actions_.erase(it);
+            }
+            else
+            {
+                ++it;
+            }
+        }
+        else
+        {
+            it = actions_.erase(it);
+        }
+    }
 }
 
 void Node::update( float dt )
@@ -88,6 +117,24 @@ void Node::computeTranform()
     else
     {
         EsHelper::matrixMultiply(transform_, transform_, parent_->getTransform());
+    }
+}
+
+void Node::runAction(Action* act)
+{
+    vector<Action*>::iterator it = actions_.begin();
+    while(it != actions_.end())
+    {
+        if(*it == act)
+        {
+            break;
+        }
+    }
+
+    if(it == actions_.end())
+    {
+        actions_.push_back(act);
+        act->setTarget(this);
     }
 }
 
